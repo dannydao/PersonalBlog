@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} · The Blog{% endblock %}
+{% block content %}
+
+    <div class="hero">
+        {% if post.cover %}
+            <img class="hero-img" src="{{ post.cover.url }}" alt="{{ post.title }}">
+        {% elif post.cover_url %}
+            <img class="hero-img" src="{{ post.cover_url }}" alt="{{ post.title }}">
+        {% else %}
+            <div class="hero-tile">{{ post.title|first|upper }}</div>
+        {% endif %}
+        <div>
+            <h1>{{ post.title }}</h1>
+            <p class="meta">by {{ post.author.username }} · {{ post.created_at|date:"M d, Y H:i" }}</p>
+
+            {% if request.user.is_authenticated and post.pk %}
+                {% if request.user == post.author or request.user.is_superuser %}
+                    <a class="btn" href="{% url 'post_edit' post.slug %}">Edit</a>
+                    <a class="btn danger" href="{% url 'post_delete' post.slug %}">Delete</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel prose">
+        {{ post.body|linebreaks }}
+    </div>
+
+    <hr>
+    <h3>Comments ({{ post.comments.count }})</h3>
+    {% for c in post.comments.all %}
+        <div class="comment">
+            <div class="avatar">{{ c.author.username|first|upper }}</div>
+            <div>
+                <div class="comment-meta"><strong>{{ c.author.username }}</strong> · {{ c.created_at|date:"M d, Y H:i" }}</div>
+                <div class="prose">{{ c.body|linebreaks }}</div>
+                
+                <div class="comment-actions" style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+                {% if request.user.is_authenticated and request.user == c.author %}
+                    <details class="edit-inline">
+                        <summary class="btn secondary small">Edit</summary>
+                        <form method="post" action="{% url 'comment_edit' post.slug c.pk %}" style="margin-top:8px;">
+                            {% csrf_token %}
+                            <textarea name="body" rows="3" style="width:100%;">{{ c.body }}</textarea>
+                            <button class="btn small" type="submit">Save</button>
+                        </form>
+                    </details>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user == c.author or request.user == post.author or request.user.is_superuser %}
+                        <form method="post" action="{% url 'comment_delete' post.slug c.pk %}" onsubmit= "return confirm('Delete this comment?');">
+                            {% csrf_token %}
+                            <button class="btn danger small" type="submit">Delete</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    {% if request.user.is_authenticated %}
+        <hr>
+        <h3>Add a comment</h3>
+        <form method="post" class="panel form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">Post Comment</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a>to comment.</p>
+    {% endif %}
+{% endblock %}

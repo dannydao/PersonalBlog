@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} Log In · The Blog{% endblock %}
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <h1>Log into your account</h1>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+            <button class="btn" type="submit">Log in</button>
+        </form>
+        <p class="small" style="margin-top:10px"> No account? <a href="{% url 'signup' %}"> Sign Up</a></p>
+    </div>
+</div>    
+{% endblock %}

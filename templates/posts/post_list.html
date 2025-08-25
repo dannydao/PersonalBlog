@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ tab_title|default:"Home" }} · The Blog{% endblock %}
+{% block content %}
+
+<h1 class="page-title">
+    {% if q %}Results for "{{ q }}"
+    {% else %}{{ page_title|default:"Latest"}}
+    {% endif %}
+</h1>
+
+<div class="card-grid">
+    {% for post in posts %}
+        <article class="card">
+            <a class="thumb" href="{% url 'post_detail' post.slug %}">
+                {% if post.cover %}
+                    <img src="{{ post.cover.url }}" alt="{{ post.title }}" loading="lazy" decoding="async">
+                {% elif post.cover_url %}
+                    <img src="{{ post.cover_url }}" alt="{{ post.title }}" loading="lazy" decoding="async">
+                {% else %}
+                    <div class="tile">{{ post.title|first|upper }}</div>
+                {% endif %}
+                <div class="fab"><i class="bi bi-book"></i></div>
+            </a>
+            
+            <h3 class="title"><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h3>
+            <p class="meta">by {{ post.author.username }} · {{ post.created_at|date:"M d, Y H:i" }}</p>
+        </article>
+    {% empty %}
+        <p class="muted">No posts yet.{% if user.is_authenticated %} <a href="{% url 'post_create' %}">Create one</a>.{% endif %}</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} New Post · The Blog{% endblock %}
+{% block content %}
+    <div class="form-page">
+        <div class="form-card">
+            <h1>{{ title }}</h1>
+
+            {% if form.instance.pk and form.instance.cover %}
+                <p><img src="{{ form.instance.cover.url }}" alt="" style="max-width:100%;height:auto;border-radius:10px;margin-bottom:10px;"></p>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.cover.label.tag }} {{ form.cover }}</p>
+            <p>{{ form.cover_url.label_tag }} {{ form.cover_url }}</p>
+            <p>{{ form.title.label_tag }} {{ form.title }}</p>
+            <p>{{ form.body.label_tag }} {{ form.body }}</p>
+            <button class="btn" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

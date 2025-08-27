@@ -18,12 +18,11 @@ body{margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans
 .nav-item{display:flex; flex-direction:column; gap:12px; color:var(--muted); text-decoration:none; padding:10px 12px; border-radius:8px;}
 .nav-item:hover, .nav-item.active{background:var(--panel); color:var(--text);}
 .nav.secondary{margin-top:auto;}
-.spacer{flex:1;}
+.spacer{flex: 0.5;}
 
 /* Main/topbar */
 .main{display:flex; flex-direction:column; min-width:0;}
-.topbar{position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:12px;
-        padding: 14px 18px; background:rgba(0,0,0,6); backdrop-filter:blur(8px); border-bottom:1px solid #000;}
+.topbar{position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:12px; padding: 14px 18px; background:rgba(0,0,0,6); backdrop-filter:blur(8px); border-bottom:1px solid #000;}
 .hamburger{display:none; background:var(--panel); border: 1px solid var(--border); color:var(--text); padding:8px 10px; border-radius:8px;}
 .search{display:flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--border); padding:8px 10px; border-radius:20px; width:360px; max-width:60vw;}
 .search input{background:transparent; border:none; outline:none; color:var(--text); width:100%;}
@@ -83,8 +82,8 @@ form input[type="submit"].btn, form button.btn{color:var(--on-accent);}
 .comment-box{min-height:140px;height:140px;max-height:140px;resize:none;overflow:auto;line-height:1.5;}
 
 /* Auth Form */
-.auth-page{min-height:calc(100vh - 80px); display:grid; place-items:center; padding: 24px 16px;}
-.auth-card{width:100%; max-width:560px; background:var(--panel); border:1px solid var(--border); border-radius:22px; padding:28px; box-shadow: 0 12px 34px rgba(0,0,0,.35);}
+.auth-page{min-height:calc(100svh - var(--topvar-h)); min-height:0; display:grid; place-items:center; padding: 65px 12px;}
+.auth-card{width:100%; max-width:420px; background:var(--panel); border:1px solid var(--border); border-radius:22px; padding:18px; box-shadow: 0 12px 34px rgba(0,0,0,.35);}
 .auth-card h1{margin: 0 0 16px; font-size:clamp(24, 3.2vw, 32px);}
 .auth-card p{margin: 0 0 12px;}
 .auth-card label{display:block; margin: 0 0 6px; color:var(--text);}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+    <div class="form-page">
+        <div class="form-card">
+            <h1>Edit Profile</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.instance.avatar %}
+                    <p><img src="{{ form.instance.avatar.url }}" alt="" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:1px solid var(--border);"></p>
+                {% endif %}
+                <p>{{ form.avatar.label_tag }} {{ form.avatar }}</p>
+                <p>{{ form.bio.label_tag}} {{ form.bio }}</p>
+                <button class="btn" type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

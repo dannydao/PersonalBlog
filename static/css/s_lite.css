@@ -80,7 +80,7 @@ form input[type="submit"].btn, form button.btn{color:var(--on-accent);}
 .comment:last-child{border-bottom:none;}
 .avatar{width:40px; height:40px; border-radius:50%; background:#222; display:grid; place-items:center; color:#ddd; font-weight:700;}
 .comment-meta{color:var(--muted); margin-bottom:6px;}
-
+.comment-box{min-height:140px;height:140px;max-height:140px;resize:none;overflow:auto;line-height:1.5;}
 
 /* Auth Form */
 .auth-page{min-height:calc(100vh - 80px); display:grid; place-items:center; padding: 24px 16px;}
@@ -118,6 +118,12 @@ form input[type="submit"].btn, form button.btn{color:var(--on-accent);}
 .edit-inline[open] summary.btn{margin-bottom:6px;}
 .edit-inline textarea{width:100%; background:#0f0f0f; border:1px solid #2a2a2a; color:var(--text); border-radius:12px; padding:10px 12px; outline:none; resize:vertical;}
 .edit-inline textarea:focus{border-color:var(--accent);}
+
+/* Top Bar Avatar */
+.topbar .whoami{margin-left:auto;}
+.topbar .whoami .whoami-link{display:inline-flex;align-items:center;gap:8px;color:var(--text);text-decoration:none;}
+.topbar .whoami .whoami-link .avatar-img{width:28px;height:28px;border-radius:50%;object-fit:cover;display:block;border:1px solid var(--border);flex:0 0 28px;}
+.topbar .whoami .whoami-link .avatar-badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#222;color:#ddd;font-weight:700;font-size:.9rem;flex:0 0 28px;}
 
 /* Responsive */
 @media (max-width: 768px){.app{grid-template-columns:1fr}

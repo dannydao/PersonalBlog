@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ owner.username }} · Profile{% endblock %}
+{% block content %}
+    <div class="form_page">
+        <div class="form-card">
+            <div style="display:flex;gap:16px;align-items:center;">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="{{ owner.username }}" style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:1px solid var(--border);">
+                {% else %}
+                    <div class="avatar" style="width:96px;height:96px;border-radius:50%;background:#222;display:grid;place-items:center;color:#ddd;font-weight:700;font-size:2rem;">
+                        {{ owner.username|first|upper }}
+                    </div>
+                {% endif %}
+                <div>
+                    <h1 style="margin:0">{{ owner.username }}</h1>
+                    {% if profile.bio %}<p class="muted" style="margin:.25rem 0 0">{{ profile.bio }}</p>{% endif %}
+                </div>
+            </div>
+
+            {% if request.user == owner %}
+            <hr>
+            <a class="btn" href="{% url 'profile_edit' %}">Edit Profile</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

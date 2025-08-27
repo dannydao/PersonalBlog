@@ -43,7 +43,7 @@
                         <form method="post" action="{% url 'comment_edit' post.slug c.pk %}" style="margin-top:8px;">
                             {% csrf_token %}
                             <textarea name="body" rows="3" style="width:100%;">{{ c.body }}</textarea>
-                            <button class="btn small" type="submit">Save</button>
+                            <button class="btn danger small" type="submit">Save</button>
                         </form>
                     </details>
                 {% endif %}
@@ -68,7 +68,9 @@
         <h3>Add a comment</h3>
         <form method="post" class="panel form">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.non_field_errors }}
+            {{ form.body.errors }}
+            {{ form.body }}
             <button class="btn" type="submit">Post Comment</button>
         </form>
     {% else %}

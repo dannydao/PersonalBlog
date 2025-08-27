@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 from django.urls import reverse
-from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .models import Post, Comment, Profile
+from .forms import PostForm, CommentForm, ProfileForm
+
 
 
 def post_list(request):
@@ -28,7 +30,7 @@ def my_posts(request):
     q = (request.GET.get("q") or "").strip()
     posts = Post.objects.filter(author=request.user).select_related("author")
     if q:
-        post = post.filer(
+        post = post.filter(
             Q(title__icontains=q) |
             Q(body__icontains=q)
         )
@@ -117,7 +119,7 @@ def comment_delete(request, slug, pk):
 @require_http_methods(["POST"])
 def comment_edit(request, slug, pk):
     comment = get_object_or_404(Comment, pk=pk, post__slug=slug)
-    if not (request.user == comment.author or request.user == comment.post.author or request.user.is_superuser):
+    if request.user != comment.author:
         return HttpResponseForbidden("You can only edit your own comments.")
     body = (request.POST.get("body") or "").strip()
     if not body:
@@ -138,3 +140,22 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
+
+def profile_detail(request, username):
+    owner = get_object_or_404(User, username=username)
+    profile, _ = Profile.objects.get_or_create(user=owner)
+    return render(request, "profile/profile_detail.html", {"owner": owner, "profile": profile})
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def profile_edit(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated.")
+            return redirect("profile_detail", username=request.user.username)
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, "profile/profile_form.html", {"form": form})

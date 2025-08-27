@@ -93,7 +93,7 @@ form input[type="submit"].btn, form button.btn{color:var(--on-accent);}
 .auth-card .small, .auth-card .helptext{color:var(--muted); font-size:.9rem;}
 
 /* Post Form */
-.form-page{min-height:calc(100vh - 80px); display:grid; place-items:center; padding:24px 16px;}
+.form-page{min-height:calc(100svh - var(--topvar-h)); display:flex; place-items:center; justify-content:center; padding:65px 12px;}
 .form-card, .auth-card{width:100%; max-width:560px; background:var(--panel); border:1px solid var(--border); border-radius:22px; padding:28px; box-shadow:0 12px 34px rgba(0,0,0,.35);}
 .form-card h1{margin: 0 0 16px; font-size:clamp(24px,3.2vw,32px);}
 .form-card label{display:block; margin:0 0 6px; color:var(--text);}
